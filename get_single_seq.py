@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
+"""
+2020/08/25
+author:guisen chen
+email:thecgs001@foxmail.com
+description:split mulitple fasta file
+usage:./get_single_seq.py mulitple_seq.fa
+"""
+
 import sys
 import os
 from Bio import SeqIO
@@ -18,7 +26,5 @@ def get_single_seq(seq_file):
         single_seq_file.close()
     seq_records.close()
     return id_list
+
 print(get_single_seq(sys.argv[1]))
-
-# 陈桂森 2020/08/25
-
