@@ -1,4 +1,4 @@
-## Python-script
+## **genblastG_extension:** *a homology-based prediction process by genblastG*
 
 **author:** *guisen chen*  |  **email:** *thecgs001@foxmail.com*
 
