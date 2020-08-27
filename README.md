@@ -25,3 +25,5 @@
 **Description:** By genblastG software, homologous gene of target species was predicted based on homologous protein sequences, and GFF files was generated.
 
 **Note:** Base on the genblast software, Biopython package.
+
+###base on [genblastG](http://genome.sfu.ca/genblast/download.html)
