@@ -26,4 +26,4 @@
 
 **Note:** Base on the genblast software, Biopython package.
 
-###base on [genblastG](http://genome.sfu.ca/genblast/download.html)
+### base on [genblastG](http://genome.sfu.ca/genblast/download.html)
