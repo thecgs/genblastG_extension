@@ -1,4 +1,5 @@
-## **genblastG_extension:** *a homology-based prediction gene process by genblastG*
+## **genblastG_extension:** 
+*a homology-based prediction gene process by genblastG*
 
 **author:** *guisen chen*  |  **email:** *thecgs001@foxmail.com*
 
@@ -26,4 +27,4 @@
 
 **Note:** Base on the genblast software, Biopython package.
 
-### base on [genblastG](http://genome.sfu.ca/genblast/download.html)
+### Base on [genblastG](http://genome.sfu.ca/genblast/download.html)
