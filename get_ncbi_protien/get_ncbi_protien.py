@@ -27,6 +27,7 @@ def get_ncbi_protien(seq_id):
             seq_record = SeqIO.read(return_query,'gb')
             outfile.write(f'>{seq_record.name}|{seq_record.description}\n{seq_record.seq}\n')
             correct_list.append(seq_id.strip())
+            print(f'{seq_id.strip()} finished')
         except:
             error_list.append(seq_id.strip())
     infile.close()
