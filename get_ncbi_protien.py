@@ -9,7 +9,7 @@ description:According to the ID number, the protein sequence
             was queried in batches from the NCBI protein database.
 usage:./get_ncbi_protien seq_id.txt
 """
-import os
+
 import sys
 from Bio import Entrez
 from Bio import SeqIO
@@ -18,7 +18,7 @@ Entrez.email = 'thecgs001@foxmail.com'
 
 def get_ncbi_protien(seq_id):
     infile = open(seq_id,'r')
-    outfile = open(f'{os.path.dirname(os.path.abspath(seq_id))}/protein.fa','a')
+    outfile = open('protein.fa','a')
     error_list = []
     correct_list = []
     for seq_id in infile:
