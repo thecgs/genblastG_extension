@@ -2,7 +2,7 @@
 #coding: utf-8
 
 """
-2020/08/26
+2020/08/28
 author:guisen chen
 email:thecgs001@foxmail.com
 description:According to the ID number, the protein sequence 
