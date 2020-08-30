@@ -1,7 +1,6 @@
-## **genblastG_extension : 一个基于genblastG软件，利用同源蛋白预测新基因的项目流程** 
+# **genblastG_extension : 一个基于genblastG软件，利用同源蛋白预测新基因的项目流程** 
 
-### * get_ncbi_protien
----
+## - get_ncbi_protien
 
 **脚本：** get_ncbi_protien.py
 
@@ -9,8 +8,7 @@
 
 **简介：** 输入一个含 NCBI protien id 的 id.txt 文件 ，返回一个含序列的 protien.fa 文件，并在屏幕输出查询到与未查询的序列 id 。
 
-### - run_genblastG
-***
+## - run_genblastG
 
 
 
