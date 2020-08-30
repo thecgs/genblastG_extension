@@ -14,9 +14,7 @@
 
 **用法：** ./run_formatdb_nucl.py genome.fa
 
-**简介：** 利用 blast [v2.2.19] 的 formatdb 选项构建一个核酸数据库，构建的核酸数据库在输入基因组目录下，
-
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp; 所以 Liunx 必须安装 blast 且版本号不超过 [v2.2.19] 。
+**简介：** 利用 blast [v2.2.19] 的 formatdb 选项构建一个核酸数据库，构建的核酸数据库在输入基因组目录下，所以 Liunx 必须安装 blast 且版本号不超过 [v2.2.19] 。
 
 <br />
 
