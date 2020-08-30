@@ -6,6 +6,10 @@
 
 **用法：** `./get_ncbi_protien.py id.txt`
 
+**输入文件：** id.txt
+
+**输出文件：** protien.fa
+
 **简介：**
 
 输入一个含 NCBI protien id 的 id.txt 文件 ，返回一个含序列的 protien.fa 文件，并在屏幕输出查询到与未查询的序列 id 。
