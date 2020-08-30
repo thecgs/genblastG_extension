@@ -32,7 +32,7 @@
 
 &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;一是将多序列拆分为单个序列，第二是将每一个单序列提交到 genblastG 去预测，第三是将最后结果整合，
 
-&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;并清洗重构成标准的 gff3 形式 ,至此生成一个名为 gene.gff 的文件，测试使用的 genblastG 版本是为：v1.39 ， 
+&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;并清洗重构成标准的 gff3 形式 ,至此生成一个名为 gene.gff 的文件，测试使用的 genblastG 版本为：v1.39 ， 
 
 &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;此程序运行的目录下必须包含 blastall 与 alignscore.txt 两个文件，所以我将此脚本的工作目录设置为：
 
