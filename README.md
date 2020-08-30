@@ -1,6 +1,6 @@
 ## **genblastG_extension : 一个基于genblastG软件，利用同源蛋白预测新基因的项目流程** 
 
-### *get_ncbi_protien
+### * get_ncbi_protien
 ---
 
 **脚本：** get_ncbi_protien.py
