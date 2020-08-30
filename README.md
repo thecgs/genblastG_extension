@@ -1,6 +1,6 @@
 # **genblastG_extension : 一个基于genblastG软件，利用同源蛋白预测新基因的项目流程** 
 
-## - get_ncbi_protien
+## 1. get_ncbi_protien
 
 **脚本：** get_ncbi_protien.py
 
@@ -8,9 +8,21 @@
 
 **简介：** 输入一个含 NCBI protien id 的 id.txt 文件 ，返回一个含序列的 protien.fa 文件，并在屏幕输出查询到与未查询的序列 id 。
 
-## - run_genblastG
+## 2. run_genblastG
 
+**脚本：** run_formatdb_nucl.py
 
+**用法：** ./run_formatdb_nucl.py genome.fa
+
+**简介：** 利用 blast[v2.2.19] 的 formatdb 选项构建一个核酸数据库，构建的核酸数据库在输入基因组目录下。
+
+<br />
+
+**脚本：** /run_genblastG.py
+
+**用法：** `./run_genblastG.py seq.fa genome.fa`
+
+**简介：** 利用 genblastG [v1.39] 
 
 
 
