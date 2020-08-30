@@ -6,7 +6,9 @@
 
 **用法：** `./get_ncbi_protien.py id.txt`
 
-**简介：** 输入一个含 NCBI protien id 的 id.txt 文件 ，返回一个含序列的 protien.fa 文件，并在屏幕输出查询到与未查询的序列 id 。
+**简介：**
+
+输入一个含 NCBI protien id 的 id.txt 文件 ，返回一个含序列的 protien.fa 文件，并在屏幕输出查询到与未查询的序列 id 。
 
 ## 2. run_genblastG
 
@@ -14,7 +16,9 @@
 
 **用法：** ./run_formatdb_nucl.py genome.fa
 
-**简介：** 利用 blast [v2.2.19] 的 formatdb 选项构建一个核酸数据库，构建的核酸数据库在输入基因组目录下，所以 Liunx 必须安装 blast 且版本号不超过 [v2.2.19] 。
+**简介：** 
+
+利用 blast [v2.2.19] 的 formatdb 选项构建一个核酸数据库，构建的核酸数据库在输入基因组目录下，所以 Liunx 必须安装 blast 且版本号不超过 [v2.2.19] 。
 
 <br />
 
@@ -22,7 +26,9 @@
 
 **用法：** `./run_genblastG.py seq.fa genome.fa`
 
-**简介：** 此脚本主要是运行 genblastG 软件去预测基因，由于 genblastG 同时进行多序列预测，运行过程会占用很大的磁盘空间，并且生成的 gff 文件不是标准的 gff3 格式，所以此脚本主要分三个步骤去解决这一问题，第一是将多序列拆分为单个序列，第二是将每一个单序列提交到 genblastG 去预测，第三是将最后结果整合，并清洗重构成标准的 gff3 形式 ,至此生成一个名为 gene.gff 的文件，测试使用的 genblastG 版本为：v1.39 ，此程序运行的目录下必须包含 blastall 与 alignscore.txt 两个文件，所以我将此脚本的工作目录设置为：/home/guisen/temp/genblast/，并将两个文件至于此目录下。
+**简介：**
+
+此脚本主要是运行 genblastG 软件去预测基因，由于 genblastG 同时进行多序列预测，运行过程中会占用很大的磁盘空间，并且生成的 gff 文件不是标准的 gff3 格式，所以此脚本主要分三个步骤去解决这一问题，第一是将多序列拆分为单个序列，第二是将每一个单序列提交到 genblastG 去预测，第三是将最后结果整合，并清洗重构成标准的 gff3 形式 ,至此生成一个名为 gene.gff 的文件，测试使用的 genblastG 版本为：v1.39 ，此程序运行的目录下必须包含 blastall 与 alignscore.txt 两个文件，所以我将此脚本的工作目录设置为：/home/guisen/temp/genblast/，并将两个文件至于此目录下。
 
 
 
