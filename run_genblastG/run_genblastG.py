@@ -36,7 +36,7 @@ def get_single_seq(seq_file):
     
 def run_gblast(single_seq,genome_file):
     """
-    运行gblastG,并生成gene_cds，gene_pep，gene_gff文件，此软件的当前目录必须有alignscore.txt与blastall两个文件
+    运行gblastG,并生成gene_gff文件，此软件的当前目录必须有alignscore.txt与blastall两个文件
     """
     cline = subprocess.Popen(f'genblastG -P blast -q {single_seq} -t {genome_file} -e 1e-10 -r 5 -c 0.8 -gff -o gblast.out',env = None,shell=True)
     cline.wait()
@@ -58,7 +58,7 @@ def reconsitution_gff(file_gff):
     """
     gene_gff = open(f'{file_gff}','r')
     
-    #删除注释行，将gff_file的第3列的transcript改为mRNA，coding_exon改为CDS，并返回一个以行为元素的clean_list
+    #删除注释行，将gff_file的第3列的transcript改为gene，coding_exon改为exon，并返回一个以行为元素的clean_list
     clean_line = []
     for line in gene_gff:
         if line[0] != '#':
