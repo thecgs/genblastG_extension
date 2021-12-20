@@ -1,4 +1,4 @@
-# **genblastG_extension : 一个基于genblastG软件，利用同源蛋白预测新基因的项目流程** 
+# **genblastG_extension : 一个基于genblastG软件，利用同源蛋白预测新基因的项目流程,by Guisen Chen** 
 
 ## 1. get_ncbi_protien
 
