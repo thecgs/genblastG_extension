@@ -30,4 +30,4 @@ The [biopython](https://biopython.org/) package must be installed.
 
 The pipline is  base on  [genblastG](http://genome.sfu.ca/genblast/download.html) (v1.38) software and [genblastg_patch](https://github.com/epaule/genblastg_patch) patch.
 
-The gff3 file obtained are redundant, Redundancy filtering will be developed later.
+The gff3 file obtained are redundant, redundancy filtering will be developed later.
