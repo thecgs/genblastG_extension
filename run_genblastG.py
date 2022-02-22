@@ -20,9 +20,6 @@ optional.add_argument('-v','--version',action='version',version='v1.00')
 args = parser.parse_args()
 
 def get_single_seq(seq_file):
-    """
-    将multiple_seq割成以seq_id.fa为文件名的single_seq文件,并返回一个以seq_id为元素的list
-    """
     seq_records = open(seq_file,'r')
     id_list = []
     for seq_record in SeqIO.parse(seq_records,'fasta'):
@@ -34,9 +31,6 @@ def get_single_seq(seq_file):
     return id_list
     
 def run_gblast(single_seq,genome_file):
-    """
-    运行gblastG,并生成gene_cds，gene_pep，gene_gff文件，此软件的当前目录必须有alignscore.txt与blastall两个文件
-    """
     cline = subprocess.Popen(f'genblastG -P blast -q {single_seq} -t {genome_file} -e 1e-10 -r 5 -c 0.8 -gff -o gblast.out',env={'GBLAST_PATH':f"{sys.path[0]}",'PATH':f"{sys.path[0]}"},shell=True)
     try:
         cline.communicate(timeout=300)
@@ -51,18 +45,13 @@ def run_gblast(single_seq,genome_file):
     gene_gff.write(temp_gff)
     gene_gff.close()
     headle_gff.close()
-    os.remove('gblast.out_1.1c_2.3_s1_0_16_1')   # 此文件多序列文件运行会很大，所以每次运行一个序列后都删�?    os.remove('gblast.out_1.1c_2.3_s1_0_16_1.gff')
+    os.remove('gblast.out_1.1c_2.3_s1_0_16_1')   
     os.remove(f'{single_seq}_{os.path.basename(genome_file)}.blast')
     os.remove(f'{single_seq}_{os.path.basename(genome_file)}.blast.report')
     os.remove('perform.txt')
     
 def reconsitution_gff(file_gff):
-    """
-    清洗file.gff
-    """
     gene_gff = open(f'{file_gff}','r')
-    
-    #删除注释行，将gff_file的第3列的transcript改为mRNA，coding_exon改为CDS，并返回一个以行为元素的clean_list
     clean_line = []
     for line in gene_gff:
         if line[0] != '#':
@@ -75,14 +64,11 @@ def reconsitution_gff(file_gff):
                     line_list[2] = 'exon'                
     gene_gff.close()
     
-    #返回一个以gene_id为元素的id_list,用于cluster
     id_list = []
     for line_list in clean_line:
         if line_list[2].strip() == 'gene':
             id_list.append(line_list[8].split(';')[0][3:])
     id_list.reverse()
-    
-    #返回以一个三重嵌套list,第一层为gene_structure_cluster
     cluster_list = []
     while len(id_list) > 0:
         id_name = id_list.pop()
@@ -92,10 +78,8 @@ def reconsitution_gff(file_gff):
                 temp_list.append(line_list)
         cluster_list.append(temp_list)
 
-    #改为标准的gff3格式，并对cluster以染色体顺序排序,返回cluster_list
     for cluster in cluster_list:
         for line_list in cluster:
-            #print(line_list)
             if line_list[2] == 'gene':
                 id = str(f'{line_list[8].split(";")[0][3:]}')
                 name = str(line_list[8].split(';')[1][5:])
@@ -120,8 +104,6 @@ def reconsitution_gff(file_gff):
                 cluster.insert(cluster.index(line_list)+1,add_list)
     return cluster_list
     
-#执行
-
 alignscore = open('alignscore.txt','a')
 score = open(f"{sys.path[0]}/alignscore.txt",'r')
 alignscore.writelines(score)
@@ -131,9 +113,9 @@ score.close()
 id_list = get_single_seq(args.input) 
 for id in id_list:
     run_gblast(f'{id}.fa',args.genome)
-    os.remove(f'{id}.fa') # 删除生成的single_seq_file
+    os.remove(f'{id}.fa') 
     
-#写入gff文件
+
 gff_file = open(args.output,'a')
 gff = csv.writer(gff_file,delimiter='\t')
 for cluster in reconsitution_gff('./gene_gff'):
