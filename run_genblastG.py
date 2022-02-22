@@ -45,7 +45,7 @@ def run_gblast(single_seq,genome_file):
     gene_gff.write(temp_gff)
     gene_gff.close()
     headle_gff.close()
-    os.remove('gblast.out_1.1c_2.3_s1_0_16_1')   
+    os.remove('gblast.out_1.1c_2.3_s1_0_16_1')
     os.remove(f'{single_seq}_{os.path.basename(genome_file)}.blast')
     os.remove(f'{single_seq}_{os.path.basename(genome_file)}.blast.report')
     os.remove('perform.txt')
