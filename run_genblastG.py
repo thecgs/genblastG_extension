@@ -1,19 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
-
-
-#!/usr/bin/env python3
-# coding: utf-8
-
-"""
-2020/08/26
-author:guisen chen
-email:thecgs001@foxmail.com
-description: 
-usage:
-"""
 
 import os
 import sys
