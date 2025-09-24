@@ -142,12 +142,14 @@ def reconsitution_gff(inputfile, outputfile):
     genes = defaultdict(str)
     mRNAs = defaultdict(str)
     CDSs = defaultdict(list)
+    count = 1
     with open(inputfile, 'r') as f:
         for l in f:
             if (not l.startswith('#')) and (l.strip() != ''):
                 l = l.strip().split('\t')
                 if l[2] == 'transcript':
-                    GeneID = re.search("ID=(.*?);", l[8]).group(1)
+                    GeneID = "GENE" + str(count) + "_" + re.search("ID=(.*?);", l[8]).group(1)
+                    count += 1
                     Target = re.search("Name=(.*)", l[8]).group(1)
                     gene = (l[0], l[1], 'gene', l[3], l[4], l[5], l[6], l[7], f"ID={GeneID};Target={Target};")
                     mRNA = (l[0], l[1], 'mRNA', l[3], l[4], '.', l[6], l[7], f"ID=mrna.{GeneID};Parent={GeneID};")
@@ -171,7 +173,7 @@ def reconsitution_gff(inputfile, outputfile):
             phases = get_phases(pos)
             
         for i, e in enumerate(CDSs[ID]):
-            print(e[0], e[1], 'exon', e[3], e[4], e[5], e[6], e[7], f"ID=exon.{ID};Parent={ID};",sep='\t', file=out)
+            print(e[0], e[1], 'exon', e[3], e[4], e[5], e[6], e[7], f"ID=exon.{ID};Parent=mrna.{ID};",sep='\t', file=out)
             e[7] = str(phases[i])
             print('\t'.join(e), file=out)
         print(file=out)
