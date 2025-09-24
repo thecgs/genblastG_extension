@@ -2,51 +2,90 @@
 
 **A pipline of homology-based prediction gene**
 
-**Author:** guisen chen  |  **Email:** <thecgs001@foxmail.com>
+**Author:** Guisen Chen  |  **Email:** <thecgs001@foxmail.com>
 
-## Step 1:  Installation
+## Installation:
+
+python >= 3.5.
+
+The [biopython](https://biopython.org/) package must be installed.
+
+The pipline is  base on  [genblastG](http://genome.sfu.ca/genblast/download.html) (v1.38) software and [genblastg_patch](https://github.com/epaule/genblastg_patch) patch.
 
 ```bash
 $ git clone git@github.com:thecgs/genblastG_extension.git
-$ export PATH=$PATH:user/genblastG_extension >> ~/.bashrc
-$ source ~/.bashrc
+pip install biopython
 ```
 
-## Step 2: creating a nucleic acid database
+## Usage:
 
 ```bash
-$ python3 run_formatdb_nucl.py genome.fa
-```
+$ genblastG_extension.py -h
+usage: genblastG_extension.py -g str -q str [-p str] [-c float] [-gap] [-e str] [-G int] [-t int] [-h] [-v]
 
-## Step 3:  homology-based prediction
+This script is mainly the wrapper of genblastg software.
+It can run genblastg in multiple threads, reconstruct the results, and output the standard gff3 file. 
+Secondly, it can filter the redundant gene model according to the prediction score and the length of 
+the predicted gene to generate the best non redundant gene model.
 
-```bash
-$ python3 run_genblastG.py -g genome.fa -i seq.fa -o out.gff3
+required arguments:
+  -g str, --genome str  A file of genome fasta format.
+  -q str, --query str   A file of query protein fasta format.
+
+optional arguments:
+  -p str, --prefix str  A prefix of output. default=genblastG_extension
+  -c float, --query_cover float
+                        minimum query cover (0-1) to report an alignment. defualt=0.8
+  -gap, --gap           parameter for blast: Perform gapped alignment. default=False
+  -e str, --evalue str  A maximum evalue of report alignments. defualt=1e-5
+  -G int, --genetic_code int
+                        Genetic code. default=1
+  -t int, --thread int  Thread number of single sortware. defualt=16
+  -h, --help            Show this help message and exit.
+  -v, --version         Show program's version number and exit.
+
+Date:2025/09/24 Author:Guisen Chen Email:thecgs001@foxmail.com
 ```
 
 ## Example:
 
 ```bash
 $ cd ./example
-$ python3 run_formatdb_nucl.py genome.fa
-$ python3 run_genblastG.py -g genome.fa -i seq.fa -o out.gff3
-$ head out.gff3
-scaffold292     genBlastG       gene    151014  161317  77.4653 +       .       ID=NP_001092224.1-R2-2-A1;Name=NP_001092224.1
-scaffold292     genBlastG       mRNA    151014  161317  .       +       .       ID=mrna.NP_001092224.1-R2-2-A1;Parent=NP_001092224.1-R2-2-A1
-scaffold292     genBlastG       exon    151014  151347  .       +       .       ID=NP_001092224.1-R2-2-A1.exon1;Parent=mrna.NP_001092224.1-R2-2-A1
-scaffold292     genBlastG       CDS     151014  151347  .       +       .       ID=cds.NP_001092224.1-R2-2-A1;Parent=mrna.NP_001092224.1-R2-2-A1
-scaffold292     genBlastG       exon    159761  159975  .       +       .       ID=NP_001092224.1-R2-2-A1.exon2;Parent=mrna.NP_001092224.1-R2-2-A1
-scaffold292     genBlastG       CDS     159761  159975  .       +       .       ID=cds.NP_001092224.1-R2-2-A1;Parent=mrna.NP_001092224.1-R2-2-A1
-scaffold292     genBlastG       exon    160161  160280  .       +       .       ID=NP_001092224.1-R2-2-A1.exon3;Parent=mrna.NP_001092224.1-R2-2-A1
-scaffold292     genBlastG       CDS     160161  160280  .       +       .       ID=cds.NP_001092224.1-R2-2-A1;Parent=mrna.NP_001092224.1-R2-2-A1
-scaffold292     genBlastG       exon    161186  161317  .       +       .       ID=NP_001092224.1-R2-2-A1.exon4;Parent=mrna.NP_001092224.1-R2-2-A1
-scaffold292     genBlastG       CDS     161186  161317  .       +       .       ID=cds.NP_001092224.1-R2-2-A1;Parent=mrna.NP_001092224.1-R2-2-A1
+
+$ ../genblastG_extension.py -g genome.fa -q seq.fa
+
+$ cat genblastG_extension.filtered.gff3 
+scaffold292	genBlastG	gene	151014	161317	101.117	+	.	ID=NP_001119935.1-R1-1-A1;Target=NP_001119935.1;
+scaffold292	genBlastG	mRNA	151014	161317	.	+	.	ID=mrna.NP_001119935.1-R1-1-A1;Parent=NP_001119935.1-R1-1-A1;
+scaffold292	genBlastG	exon	151014	151347	.	+	.	ID=exon.NP_001119935.1-R1-1-A1;Parent=mrna.NP_001119935.1-R1-1-A1;
+scaffold292	genBlastG	CDS	151014	151347	.	+	.	ID=cds.NP_001119935.1-R1-1-A1;Parent=mrna.NP_001119935.1-R1-1-A1;
+scaffold292	genBlastG	exon	159761	159975	.	+	.	ID=exon.NP_001119935.1-R1-1-A1;Parent=mrna.NP_001119935.1-R1-1-A1;
+scaffold292	genBlastG	CDS	159761	159975	.	+	.	ID=cds.NP_001119935.1-R1-1-A1;Parent=mrna.NP_001119935.1-R1-1-A1;
+scaffold292	genBlastG	exon	160161	160280	.	+	.	ID=exon.NP_001119935.1-R1-1-A1;Parent=mrna.NP_001119935.1-R1-1-A1;
+scaffold292	genBlastG	CDS	160161	160280	.	+	.	ID=cds.NP_001119935.1-R1-1-A1;Parent=mrna.NP_001119935.1-R1-1-A1;
+scaffold292	genBlastG	exon	161186	161317	.	+	.	ID=exon.NP_001119935.1-R1-1-A1;Parent=mrna.NP_001119935.1-R1-1-A1;
+scaffold292	genBlastG	CDS	161186	161317	.	+	.	ID=cds.NP_001119935.1-R1-1-A1;Parent=mrna.NP_001119935.1-R1-1-A1;
+
+scaffold490	genBlastG	gene	530885	536012	71.8193	-	.	ID=NP_001092224.1-R2-2-A1;Target=NP_001092224.1;
+scaffold490	genBlastG	mRNA	530885	536012	.	-	.	ID=mrna.NP_001092224.1-R2-2-A1;Parent=NP_001092224.1-R2-2-A1;
+scaffold490	genBlastG	exon	535679	536012	.	-	.	ID=exon.NP_001092224.1-R2-2-A1;Parent=mrna.NP_001092224.1-R2-2-A1;
+scaffold490	genBlastG	CDS	535679	536012	.	-	.	ID=cds.NP_001092224.1-R2-2-A1;Parent=mrna.NP_001092224.1-R2-2-A1;
+scaffold490	genBlastG	exon	531688	531896	.	-	.	ID=exon.NP_001092224.1-R2-2-A1;Parent=mrna.NP_001092224.1-R2-2-A1;
+scaffold490	genBlastG	CDS	531688	531896	.	-	.	ID=cds.NP_001092224.1-R2-2-A1;Parent=mrna.NP_001092224.1-R2-2-A1;
+scaffold490	genBlastG	exon	531127	531246	.	-	.	ID=exon.NP_001092224.1-R2-2-A1;Parent=mrna.NP_001092224.1-R2-2-A1;
+scaffold490	genBlastG	CDS	531127	531246	.	-	.	ID=cds.NP_001092224.1-R2-2-A1;Parent=mrna.NP_001092224.1-R2-2-A1;
+scaffold490	genBlastG	exon	530885	531022	.	-	.	ID=exon.NP_001092224.1-R2-2-A1;Parent=mrna.NP_001092224.1-R2-2-A1;
+scaffold490	genBlastG	CDS	530885	531022	.	-	.	ID=cds.NP_001092224.1-R2-2-A1;Parent=mrna.NP_001092224.1-R2-2-A1;
+
+$cat genblastG_extension.pep.fasta
+>mrna.NP_001119935.1-R1-1-A1 Gene=NP_001119935.1-R1-1-A1 Length=266 Position=scaffold292:151014-161317(+)
+MILSFCLLVTFILGLSGCLGSYVPCEPCDEKAMSMCPPVPVGCQLVKEPGCGCCLTCALSEGQACGVYTGTCTQGLRCLPRSGEEKPLHALLHGRGVCTNEKGYKPAHPPIDRESREHEDTMTTEITEELQPAKVPLLPKDIVNSKKVHALRKEQKRKLGKQRYMGSPMDYSPLPIDKHEPEFGPCRRKLDGIIQGMKDTSRVMALSLYLPNCDRKGFFKRKQCKPSRGRKRGICWCVDKYGIQLPGTDYSGGDIQCKDLESSNNE*
+>mrna.NP_001092224.1-R2-2-A1 Gene=NP_001092224.1-R2-2-A1 Length=266 Position=scaffold490:530885-536012(-)
+MLLSVSLLVLPLLSFPGCGSSYVPCEPCDQKAQSMCPPVPMGCQLVKEPGCGCCLTCALEEGQPCGVYTGPCTRGLRCLPKNGEEKPLHALLHGRGVCRNEKLYKLLHPSKDESHDDTLLPVPESMLPQTKVPLYGRDHISSRKVHAMKQAKDRKKQLARLGPASNLDFSPLSLDKMDPEFGPCRRRLDNLIQSMKDTSRVLALSLYIPNCDKKGFFKRKQCKPSRGRKRGICWCVDRFGVKIPGINYAGGDLQCKDLDSSSNSNE*
+
+$ cat genblastG_extension.cds.fasta 
+>mrna.NP_001119935.1-R1-1-A1 Gene=NP_001119935.1-R1-1-A1 Length=801 Position=scaffold292:151014-161317(+)
+ATGATTCTGAGTTTTTGCCTCTTGGTGACATTTATCTTGGGGCTGTCCGGCTGCTTGGGCTCATACGTGCCGTGCGAGCCTTGTGACGAGAAGGCGATGTCCATGTGCCCTCCGGTCCCGGTCGGATGCCAGCTGGTCAAGGAGCCGGGCTGCGGCTGCTGCCTAACGTGTGCCCTGTCTGAGGGGCAGGCGTGCGGCGTTTACACCGGGACGTGCACCCAGGGCCTGCGCTGCCTGCCGAGGAGCGGGGAGGAGAAACCCCTGCACGCCCTTCTCCACGGCAGGGGAGTGTGCACCAACGAGAAAGGATACAAACCTGCCCACCCGCCCATAGATCGTGAGTCTCGAGAACATGAGGACACCATGACCACAGAGATTACAGAGGAGTTGCAGCCAGCCAAAGTGCCGCTCCTTCCTAAAGACATTGTGAACAGTAAAAAAGTCCATGCGCTGCGCAAGGAGCAAAAGAGGAAGCTGGGCAAGCAGCGCTACATGGGCTCTCCTATGGACTATTCCCCTCTGCCCATCGACAAGCATGAGCCTGAATTTGGTCCATGCAGAAGAAAACTGGATGGGATCATTCAGGGGATGAAGGACACTTCTCGTGTAATGGCTCTGTCTTTGTACCTCCCCAACTGCGACAGAAAAGGATTCTTCAAGCGCAAGCAGTGTAAACCATCTCGCGGCCGCAAACGAGGCATCTGCTGGTGCGTGGACAAGTACGGCATCCAGCTCCCCGGCACAGACTACAGCGGAGGGGACATTCAGTGTAAAGACCTGGAGAGCAGCAACAACGAGTGA
+>mrna.NP_001092224.1-R2-2-A1 Gene=NP_001092224.1-R2-2-A1 Length=801 Position=scaffold490:530885-536012(-)
+ATGCTGCTGAGTGTTTCCCTCCTGGTGCTCCCCCTGCTTAGCTTCCCCGGCTGCGGCTCGTCGTACGTGCCGTGCGAGCCGTGCGATCAGAAGGCCCAGTCCATGTGCCCGCCGGTGCCGATGGGCTGTCAGCTGGTGAAGGAGCCCGGCTGCGGCTGCTGCCTGACGTGCGCGCTCGAAGAGGGCCAGCCGTGCGGCGTGTACACCGGGCCGTGCACCCGCGGGCTCCGGTGCCTCCCGAAGAACGGCGAGGAGAAGCCGCTGCATGCCCTGCTGCACGGCCGGGGGGTGTGCAGGAACGAGAAGTTGTACAAACTGCTGCATCCGTCAAAAGACGAATCTCACGATGACACCCTGCTGCCCGTCCCTGAGTCAATGCTGCCGCAAACCAAGGTGCCCTTATATGGAAGAGACCACATCAGCAGTCGGAAGGTCCACGCCATGAAGCAAGCCAAGGACCGCAAGAAGCAGCTGGCCAGGTTGGGACCTGCCAGCAACCTGGACTTCTCACCGCTAAGCCTGGATAAAATGGATCCCGAGTTCGGGCCCTGCAGGAGAAGATTGGACAATCTCATCCAGAGCATGAAAGACACCTCTCGGGTCTTGGCTCTCTCTCTGTACATCCCCAACTGTGACAAGAAGGGCTTCTTCAAGCGCAAACAGTGTAAGCCGTCTCGTGGACGAAAAAGGGGCATCTGCTGGTGCGTCGACCGGTTTGGCGTGAAAATCCCAGGCATCAACTACGCCGGCGGAGACCTGCAGTGCAAGGATCTCGACAGCAGCAGCAACAGCAATGAATGA
 ```
-
-## **Note:**
-
-The [biopython](https://biopython.org/) package must be installed.
-
-The pipline is  base on  [genblastG](http://genome.sfu.ca/genblast/download.html) (v1.38) software and [genblastg_patch](https://github.com/epaule/genblastg_patch) patch.
-
-The gff3 file obtained are redundant, redundancy filtering will be developed later.
