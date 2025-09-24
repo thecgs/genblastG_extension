@@ -9,6 +9,7 @@ import shutil
 import subprocess
 import argparse
 from Bio import SeqIO
+from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor
 
 if __name__ == '__main__':
@@ -130,31 +131,52 @@ def run_gblast(inputfile, genome_file, evalue='1e-10', query_cover=0.8, gap=Fals
     out.close()
     return None
 
+def get_phases(pos):
+    phases = [0]
+    for i, p in enumerate(pos[1:]):
+        phase=(3 - ((pos[i][1] - pos[i][0] + 1) - phases[i]) % 3) % 3
+        phases.append(phase)
+    return phases
+
 def reconsitution_gff(inputfile, outputfile):
-    count = 0
-    out = open(outputfile, 'w')
+    genes = defaultdict(str)
+    mRNAs = defaultdict(str)
+    CDSs = defaultdict(list)
     with open(inputfile, 'r') as f:
         for l in f:
             if (not l.startswith('#')) and (l.strip() != ''):
                 l = l.strip().split('\t')
                 if l[2] == 'transcript':
-                    if count != 0:
-                        print("", file=out)
                     GeneID = re.search("ID=(.*?);", l[8]).group(1)
                     Target = re.search("Name=(.*)", l[8]).group(1)
                     gene = (l[0], l[1], 'gene', l[3], l[4], l[5], l[6], l[7], f"ID={GeneID};Target={Target};")
                     mRNA = (l[0], l[1], 'mRNA', l[3], l[4], '.', l[6], l[7], f"ID=mrna.{GeneID};Parent={GeneID};")
-                    print(*gene, sep='\t', file=out)
-                    print(*mRNA, sep='\t', file=out)
-                    count += 1
+                    genes[GeneID] = '\t'.join(gene)
+                    mRNAs[GeneID] = '\t'.join(mRNA)
                 elif l[2] == 'coding_exon':
-                    exon = (l[0], l[1], 'exon', l[3], l[4], '.', l[6], l[7], f"ID=exon.{GeneID};Parent=mrna.{GeneID};")
-                    CDS = (l[0], l[1], 'CDS', l[3], l[4], '.', l[6], l[7], f"ID=cds.{GeneID};Parent=mrna.{GeneID};")
-                    print(*exon, sep='\t', file=out)
-                    print(*CDS, sep='\t', file=out)
+                    CDS = [l[0], l[1], 'CDS', l[3], l[4], '.', l[6], l[7], f"ID=cds.{GeneID};Parent=mrna.{GeneID};"]
+                    CDSs[GeneID].append(CDS)
+    out = open(outputfile, 'w')
+    for ID in genes:
+        print(genes[ID], file=out)
+        print(mRNAs[ID], file=out)
+        
+        if mRNAs[ID].split('\t')[6] == '+':        
+            CDSs[ID] = sorted(CDSs[ID], key=lambda x: int(x[3]), reverse=False)
+            pos = [(int(e[3]), int(e[4])) for e in CDSs[ID]]
+            phases = get_phases(pos)
+        else:
+            CDSs[ID] = sorted(CDSs[ID], key=lambda x: int(x[3]), reverse=True)
+            pos = [(int(e[3]), int(e[4])) for e in CDSs[ID]]
+            phases = get_phases(pos)
+            
+        for i, e in enumerate(CDSs[ID]):
+            print(e[0], e[1], 'exon', e[3], e[4], e[5], e[6], e[7], f"ID=exon.{ID};Parent={ID};",sep='\t', file=out)
+            e[7] = str(phases[i])
+            print('\t'.join(e), file=out)
+        print(file=out)
     out.close()
     return None
-
 run_gblast(inputfile=args.query, genome_file=args.genome,
            evalue=args.evalue, query_cover=args.query_cover, gap=args.gap,
            output_file="genblastG.gff3", thread=args.thread)

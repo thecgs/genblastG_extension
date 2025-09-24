@@ -8,13 +8,14 @@
 
 python >= 3.5.
 
-The [biopython](https://biopython.org/) package must be installed.
+The [biopython](https://biopython.org/)  and natsort package must be installed.
 
 The pipline is  base on  [genblastG](http://genome.sfu.ca/genblast/download.html) (v1.38) software and [genblastg_patch](https://github.com/epaule/genblastg_patch) patch.
 
 ```bash
 $ git clone git@github.com:thecgs/genblastG_extension.git
 $ pip install biopython
+$ pip install natsort
 ```
 
 ## Usage:
