@@ -14,7 +14,7 @@ The pipline is  base on  [genblastG](http://genome.sfu.ca/genblast/download.html
 
 ```bash
 $ git clone git@github.com:thecgs/genblastG_extension.git
-pip install biopython
+$ pip install biopython
 ```
 
 ## Usage:
