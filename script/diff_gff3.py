@@ -14,7 +14,7 @@ If they do not overlap,
 keep the gene model of the second gff3 file.
 This is beneficial for the screening work of gene family identification.""",
     add_help=False, formatter_class=argparse.RawTextHelpFormatter,
-    epilog='Date:2024/09/22 Author:Guisen Chen Email:thecgs001@foxmail.com')
+    epilog='Date:2025/09/22 Author:Guisen Chen Email:thecgs001@foxmail.com')
     required = parser.add_argument_group('required arguments')
     optional = parser.add_argument_group('optional arguments')
     required.add_argument('gff3_file1', metavar='gff3_file1',

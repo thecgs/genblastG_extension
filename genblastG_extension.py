@@ -73,7 +73,7 @@ def split_seq(inputfile, outdir="00.split_seqs"):
     
     inputfiles = []
     for n, record in  enumerate(SeqIO.parse(handle, 'fasta')):
-        with open(f'{record.id}.{str(n+1)}.fasta', 'w') as f:
+        with open(f'GENE{str(n+1)}_{record.id}.fasta', 'w') as f:
             seqence = ''
             for i in record.seq:
                 if i.islower():
@@ -81,8 +81,8 @@ def split_seq(inputfile, outdir="00.split_seqs"):
                 else:
                     seqence += i
                     
-            print(f'>{record.id}.{str(n+1)}\n{seqence}', file=f)
-            inputfiles.append(os.path.realpath(f'{record.id}.{str(n+1)}.fasta'))
+            print(f'>{record.id}\n{seqence}', file=f)
+            inputfiles.append(os.path.realpath(f'GENE{str(n+1)}_{record.id}.fasta'))
     handle.close()
     os.chdir('../')
     return inputfiles
