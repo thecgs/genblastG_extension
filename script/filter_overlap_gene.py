@@ -41,13 +41,17 @@ for i in range(0, len(genes)):
     if i == 0:
         save_genes.append(genes[i])
     else:
-        if (genes[i][0] == genes[i-1][0]) and (genes[i][3] == genes[i-1][3]):
-            if genes[i-1][1] <= genes[i][1] < genes[i-1][2]:
-                if float(genes[i][4]) > float(genes[i-1][4]):
+        if (genes[i][0] == save_genes[-1][0]) and (genes[i][3] == save_genes[-1][3]):
+            if save_genes[-1][1] <= genes[i][1] <= save_genes[-1][2]:
+                if float(genes[i][4]) > float(save_genes[-1][4]):
+                    #print(genes[i], save_genes[-1])
                     save_genes[-1] = genes[i]
-                elif float(genes[i][4]) == float(genes[i-1][4]):
-                    if float(genes[i][5]) > float(genes[i-1][5]):
+                elif float(genes[i][4]) == float(save_genes[-1][4]):
+                    if float(genes[i][5]) > float(save_genes[-1][5]):
+                        #print(genes[i], save_genes[-1])
                         save_genes[-1] = genes[i]
+            else:
+                save_genes.append(genes[i])
         else:
             save_genes.append(genes[i])
 
