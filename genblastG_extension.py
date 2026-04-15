@@ -126,8 +126,9 @@ def run_gblast(inputfile, genome_file, evalue='1e-10', query_cover=0.8, gap=Fals
 
     out = open(output_file, 'w')
     for file in files:
-        with open("01.gblastG_result/" + os.path.splitext(os.path.basename(file))[0] + '_1.1c_2.3_s1_0_16_1.gff', 'r') as f:
-            out.write(f.read())
+        if os.path.exists("01.gblastG_result/" + os.path.splitext(os.path.basename(file))[0] + '_1.1c_2.3_s1_0_16_1.gff'):
+            with open("01.gblastG_result/" + os.path.splitext(os.path.basename(file))[0] + '_1.1c_2.3_s1_0_16_1.gff', 'r') as f:
+                 out.write(f.read())
     out.close()
     return None
 
